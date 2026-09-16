@@ -1,5 +1,5 @@
 ﻿function Remove-EaaResourceGroup {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
 		[Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
 		[PsfArgumentCompleter('EntraAuth.Azure.Subscription')]
@@ -25,8 +25,10 @@
 	}
 	process {
 		$subscriptionID = Resolve-Subscription -Name $Subscription -Services $services -Cmdlet $PSCmdlet
-		$null = Invoke-EntraRequest -Service $services.Azure -Method DELETE -Path "subscriptions/$subscriptionID/resourcegroups/$Name" -Query @{
-			'api-version' = '2021-04-01'
-		} -Body $body
+		Invoke-PSFProtectedCommand -Action "Deleting Resource Group $Name under Subscription $SubscriptionID" -Target $Name -ScriptBlock {
+			$null = Invoke-EntraRequest -Service $services.Azure -Method DELETE -Path "subscriptions/$subscriptionID/resourcegroups/$Name" -Query @{
+				'api-version' = '2021-04-01'
+			} -Body $body
+		}
 	}
 }
