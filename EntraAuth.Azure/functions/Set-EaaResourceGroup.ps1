@@ -1,4 +1,34 @@
 ﻿function Set-EaaResourceGroup {
+	<#
+	.SYNOPSIS
+		Updates an Azure resource group.
+
+	.DESCRIPTION
+		Updates the managing resource or tags of an existing Azure resource group in the specified subscription.
+
+	.PARAMETER Subscription
+		The subscription name or ID containing the resource group.
+
+	.PARAMETER Name
+		The name of the resource group to update.
+
+	.PARAMETER ManagedBy
+		The resource ID, represented as a GUID, of the resource that manages this resource group.
+
+	.PARAMETER Tags
+		A hashtable of tag names and values that replaces the resource group's tags.
+
+	.PARAMETER ServiceMap
+		Optional hashtable to map service names to specific EntraAuth service instances.
+		Used for advanced scenarios where you want to use something other than the default Azure connection.
+		Example: @{ Azure = 'MyAzure' }
+		This will switch all Azure API calls to use the configuration defined in MyAzure.
+
+	.EXAMPLE
+		PS C:\> Set-EaaResourceGroup -Subscription 'Production' -Name 'WebApps' -Tags @{ Environment = 'Prod'; Owner = 'Platform' }
+
+		Updates the WebApps resource group in the Production subscription with the specified Environment and Owner tags.
+	#>
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
 		[Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]

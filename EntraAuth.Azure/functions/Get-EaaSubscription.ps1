@@ -7,22 +7,27 @@
 		Lists the available subscriptions in the tenant.
 	
 	.PARAMETER Name
-		Name of the subscription to filter by.
+		A wildcard pattern used to filter subscription display names.
 		Defaults to: *
 	
 	.PARAMETER ID
-		Retrieve the specified subscription by its SubscriptionID
+		The subscription ID of the subscription to retrieve.
 	
 	.PARAMETER ServiceMap
 		Optional hashtable to map service names to specific EntraAuth service instances.
 		Used for advanced scenarios where you want to use something other than the default Azure connection.
 		Example: @{ Azure = 'MyAzure' }
-		This will switch all Azure API calls to use the MyAzure service configuration.
+		This will switch all Azure API calls to use the configuration defined in MyAzure.
 	
 	.EXAMPLE
-		PS C:\> Get-EaaSubscription
+		PS C:\> Get-EaaSubscription -Name 'Production*'
 
-		Lists all available subscriptions in the currently connected tenant.
+		Lists subscriptions in the currently connected tenant whose display names begin with Production.
+
+	.EXAMPLE
+		PS C:\> Get-EaaSubscription -ID '00000000-0000-0000-0000-000000000001'
+
+		Retrieves the subscription with the specified subscription ID.
 	#>
 	[CmdletBinding(DefaultParameterSetName = 'ByName')]
 	param (

@@ -1,4 +1,43 @@
 ﻿function New-EaaResourceGroup {
+	<#
+	.SYNOPSIS
+		Creates an Azure resource group.
+
+	.DESCRIPTION
+		Creates a resource group with the specified name and location in an Azure subscription. The new group can optionally be associated with a managing resource and initialized with tags.
+
+	.PARAMETER Subscription
+		The subscription name or ID in which the resource group is created.
+
+	.PARAMETER Name
+		The name of the resource group to create.
+
+	.PARAMETER Location
+		The Azure location in which resource group metadata is stored.
+
+	.PARAMETER ManagedBy
+		The resource ID, represented as a GUID, of the resource that manages this resource group.
+
+	.PARAMETER Tags
+		A hashtable of tag names and values assigned to the new resource group.
+
+	.PARAMETER WhatIf
+		If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.
+	
+	.PARAMETER Confirm
+		If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.
+
+	.PARAMETER ServiceMap
+		Optional hashtable to map service names to specific EntraAuth service instances.
+		Used for advanced scenarios where you want to use something other than the default Azure connection.
+		Example: @{ Azure = 'MyAzure' }
+		This will switch all Azure API calls to use the configuration defined in MyAzure.
+
+	.EXAMPLE
+		PS C:\> New-EaaResourceGroup -Subscription 'Production' -Name 'WebApps' -Location 'eastus' -Tags @{ Environment = 'Prod' }
+
+		Creates the WebApps resource group in eastus under the Production subscription and assigns it an Environment tag with the value Prod.
+	#>
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
 		[Parameter(Mandatory = $true)]
