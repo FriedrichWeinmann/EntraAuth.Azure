@@ -55,7 +55,7 @@
 		[string]
 		$Location,
 
-		[guid]
+		[string]
 		$ManagedBy,
 
 		[hashtable]

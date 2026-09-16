@@ -20,6 +20,7 @@
 
 		Resolves the subscription whose display name is Production using the supplied services and returns its subscription ID, reporting any resolution error through the calling cmdlet.
 	#>
+	[OutputType([string])]
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]

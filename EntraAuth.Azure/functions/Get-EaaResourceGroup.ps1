@@ -12,14 +12,13 @@
 	.PARAMETER Name
 		The exact name of the resource group to retrieve.
 
-	.PARAMETER Tags
-		A hashtable of tag names and values used to filter listed resource groups.
-		- Each Name/Value pair is searched with an equality condition.
-		- All separate tags are used in a AND logic combination
+	.PARAMETER Tag
+		A hashtable of tag name and value used to filter listed resource groups.
+		Must not contain more than one tag!
 
 		Example:
-		@{ Environment = 'Prod'; Generation = '3' }
-		This will find all Resource Groups in the 'Prod' environment of the third generation.
+		@{ Environment = 'Prod' }
+		This will find all Resource Groups in the 'Prod' environment.
 
 	.PARAMETER Filter
 		An Azure filter expression appended to any conditions supplied through Tags.
@@ -59,8 +58,9 @@
 		$Name,
 
 		[Parameter(ParameterSetName = 'Filter')]
+		[PsfValidateScript({ $_.Count -lt 2 }, ErrorMessage = 'Cannot specify more than one tag!')]
 		[hashtable]
-		$Tags,
+		$Tag,
 		
 		[Parameter(ParameterSetName = 'Filter')]
 		[string]
@@ -91,15 +91,11 @@
 		$query = @{
 			'api-version' = '2021-04-01'
 		}
-		if ($PSBoundParameters.Keys -contains 'Top') { $query.Top = $Top }
+		if ($PSBoundParameters.Keys -contains 'Top') { $query.'$top' = $Top }
 
-		$filterB = New-EntraFilterBuilder
-		foreach ($tagName in $Tags.Keys) {
-			$filterB.Add($tagName, 'eq', $Tags.$tagName)
-		}
-		if ($Filter) { $filterB.Add($Filter) }
-		if ($filterB.Entries.Count -gt 0) { $query['$filter'] = $filterB.ToString() }
+		if ($Filter) { $query['$filter'] = $Filter }
+		elseif ($Tag) { $query['$filter'] = "tagName eq '$($Tag.Keys[0])' and tagValue eq '$($Tag.Values[0])'" }
 
-		Invoke-EntraRequest -Service $services.Azure -Path "subscriptions/$subscriptionID/resourcegroups/$Name" -Query $query | ConvertTo-ResourceGroup -SubscriptionID $subscriptionID
+		Invoke-EntraRequest -Service $services.Azure -Path "subscriptions/$subscriptionID/resourcegroups" -Query $query | ConvertTo-ResourceGroup -SubscriptionID $subscriptionID
 	}
 }

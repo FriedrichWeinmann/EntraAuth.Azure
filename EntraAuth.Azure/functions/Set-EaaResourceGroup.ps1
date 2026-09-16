@@ -24,6 +24,12 @@
 		Example: @{ Azure = 'MyAzure' }
 		This will switch all Azure API calls to use the configuration defined in MyAzure.
 
+	.PARAMETER WhatIf
+		If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.
+	
+	.PARAMETER Confirm
+		If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.
+
 	.EXAMPLE
 		PS C:\> Set-EaaResourceGroup -Subscription 'Production' -Name 'WebApps' -Tags @{ Environment = 'Prod'; Owner = 'Platform' }
 
@@ -41,7 +47,7 @@
 		[string]
 		$Name,
 
-		[guid]
+		[string]
 		$ManagedBy,
 
 		[hashtable]
@@ -54,6 +60,10 @@
 	begin {
 		$services = $script:_serviceSelector.GetServiceMap($ServiceMap)
 		Assert-EntraConnection -Cmdlet $PSCmdlet -Service $services.Azure
+
+		if (-not ($ManagedBy -or $Tags)) {
+			Stop-PSFFunction -Message "Neither 'ManagedBy' nor 'Tags' were specified, no change possible" -EnableException $true -Cmdlet $PSCmdlet -Category InvalidOperation
+		}
 	}
 	process {
 		$subscriptionID = Resolve-Subscription -Name $Subscription -Services $services -Cmdlet $PSCmdlet
@@ -65,6 +75,6 @@
 			Invoke-EntraRequest -Service $services.Azure -Method PATCH -Path "subscriptions/$subscriptionID/resourcegroups/$Name" -Query @{
 				'api-version' = '2021-04-01'
 			} -Body $body -ContentType 'application/json' | ConvertTo-ResourceGroup -SubscriptionID $subscriptionID
-		}
+		} -EnableException $true -PSCmdlet $PSCmdlet
 	}
 }
