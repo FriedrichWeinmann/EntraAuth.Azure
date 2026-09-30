@@ -32,6 +32,7 @@
 		Used for advanced scenarios where you want to use something other than the default Azure connection.
 		Example: @{ Azure = 'MyAzure' }
 		This will switch all Azure API calls to use the configuration defined in MyAzure.
+		Defaults to: @{}
 
 	.EXAMPLE
 		PS C:\> New-EaaResourceGroup -Subscription 'Production' -Name 'WebApps' -Location 'eastus' -Tags @{ Environment = 'Prod' }
