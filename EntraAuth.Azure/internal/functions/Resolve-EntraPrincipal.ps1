@@ -25,6 +25,7 @@
 
 		Resolves the specified user principal name through Microsoft Graph and returns its object ID.
 	#>
+	[OutputType([string])]
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]
