@@ -95,7 +95,7 @@
 		if ($PSBoundParameters.Keys -contains 'Top') { $query.'$top' = $Top }
 
 		if ($Filter) { $query['$filter'] = $Filter }
-		elseif ($Tag) { $query['$filter'] = "tagName eq '$($Tag.Keys[0])' and tagValue eq '$($Tag.Values[0])'" }
+		elseif ($Tag) { $query['$filter'] = "tagName eq '$($Tag.Keys[0] -replace "'", "''")' and tagValue eq '$($Tag.Values[0] -replace "'", "''")'" }
 
 		Invoke-EntraRequest -Service $services.Azure -Path "subscriptions/$subscriptionID/resourcegroups" -Query $query | ConvertTo-ResourceGroup -SubscriptionID $subscriptionID
 	}

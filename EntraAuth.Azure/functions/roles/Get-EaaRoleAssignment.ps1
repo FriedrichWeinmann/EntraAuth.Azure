@@ -68,7 +68,7 @@
 		}
 
 		if ($Assignment) {
-			$trimmedPath = $Assignment.Trim('/') -replace '/providers/Microsoft.Authorization/roleDefinitions/([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}$'
+			$trimmedPath = $Assignment.Trim('/') -replace '/providers/Microsoft.Authorization/roleAssignments/([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}$'
 			Invoke-EntraRequest -Service $services.Azure -Path $Assignment -Query $query -ErrorAction Stop | ConvertTo-RoleAssignment -Resource $trimmedPath -Services $services
 			return
 		}

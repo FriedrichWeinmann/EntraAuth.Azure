@@ -141,7 +141,7 @@
 		if ($Subscriptions) { $body.subscriptions = $Subscriptions }
 
 		$optionsHash = @{}
-		if ($Options) { $optionsHash = $Options }
+		if ($Options) { $optionsHash = $Options.Clone() }
 		if ($PSBoundParameters.Keys -contains 'Top') { $optionsHash['$top'] = $Top }
 		if ($PSBoundParameters.Keys -contains 'Skip') { $optionsHash['$skip'] = $Skip }
 		if ($SkipToken) { $optionsHash['$skipToken'] = $SkipToken }

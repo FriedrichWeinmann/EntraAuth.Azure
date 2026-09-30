@@ -69,8 +69,8 @@
 	process {
 		$subscriptionID = Resolve-Subscription -Name $Subscription -Services $services -Cmdlet $PSCmdlet
 		$body = @{ }
-		if ($ManagedBy) { $body.managedBy = $ManagedBy }
-		if ($Tags) { $body.tags = $Tags }
+		if ($PSBoundParameters.Keys -contains 'ManagedBy') { $body.managedBy = $ManagedBy }
+		if ($PSBoundParameters.Keys -contains 'Tags') { $body.tags = $Tags }
 
 		Invoke-PSFProtectedCommand -Action "Updating Resource Group $Name under Subscription $SubscriptionID" -Target $Name -ScriptBlock {
 			Invoke-EntraRequest -Service $services.Azure -Method PATCH -Path "subscriptions/$subscriptionID/resourcegroups/$Name" -Query @{
