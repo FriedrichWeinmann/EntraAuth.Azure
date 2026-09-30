@@ -4,7 +4,7 @@
 	RootModule        = 'EntraAuth.Azure.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '1.1.5'
+	ModuleVersion     = '1.1.10'
 
 	# Supported PSEditions
 	# CompatiblePSEditions = @()

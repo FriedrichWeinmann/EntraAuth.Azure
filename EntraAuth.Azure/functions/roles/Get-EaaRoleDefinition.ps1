@@ -67,14 +67,14 @@
 			else { $url = $ID }
 			Invoke-EntraRequest -Service $services.Azure -Path $url -Query @{
 				'api-version' = '2022-04-01'
-			}
+			} | ConvertTo-RoleDefinition
 			return
 		}
 
 		$query = @{
 			'api-version' = '2022-04-01'
 		}
-		if ($Name -notmatch '\*') { $query.'$filter' = "roleName eq '$Name'" }
+		if ($Name -notmatch '\*') { $query.'$filter' = "roleName eq '$($Name -replace "'", "''")'" }
 
 		Invoke-EntraRequest -Service $services.Azure -Path "$ResourceID/providers/Microsoft.Authorization/roleDefinitions" -Query $query | Where-Object {
 			-not $Name -or

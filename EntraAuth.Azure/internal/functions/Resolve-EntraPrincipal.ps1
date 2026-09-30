@@ -53,25 +53,25 @@
 			'User' {
 				@{
 					Path  = 'users'
-					Query = @{ '$filter' = "userPrincipalName eq '$Name'" }
+					Query = @{ '$filter' = "userPrincipalName eq '$($Name -replace "'", "''")'" }
 				}
 			}
 			'Group' {
 				@{
 					Path  = 'groups'
-					Query = @{ '$filter' = "displayName eq '$Name'" }
+					Query = @{ '$filter' = "displayName eq '$($Name -replace "'", "''")'" }
 				}
 			}
 			'ServicePrincipal' {
 				@{
 					Path  = 'servicePrincipals'
-					Query = @{ '$filter' = "displayName eq '$Name'" }
+					Query = @{ '$filter' = "displayName eq '$($Name -replace "'", "''")'" }
 				}
 			}
-			'Devices' {
+			'Device' {
 				@{
 					Path  = 'devices'
-					Query = @{ '$filter' = "displayName eq '$Name'" }
+					Query = @{ '$filter' = "displayName eq '$($Name -replace "'", "''")'" }
 				}
 			}
 			default {
