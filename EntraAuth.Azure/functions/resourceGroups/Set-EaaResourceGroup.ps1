@@ -23,6 +23,7 @@
 		Used for advanced scenarios where you want to use something other than the default Azure connection.
 		Example: @{ Azure = 'MyAzure' }
 		This will switch all Azure API calls to use the configuration defined in MyAzure.
+		Defaults to: @{}
 
 	.PARAMETER WhatIf
 		If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.

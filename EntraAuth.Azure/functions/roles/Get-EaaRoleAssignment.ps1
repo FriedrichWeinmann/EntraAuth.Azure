@@ -1,4 +1,44 @@
 ﻿function Get-EaaRoleAssignment {
+	<#
+	.SYNOPSIS
+		Retrieves Azure role assignments by resource or assignment ID.
+
+	.DESCRIPTION
+		Retrieves Azure role assignments.
+		Resource queries can return assignments at the resource, inherited from parent scopes, assigned to child scopes, or all assignments visible from the resource.
+
+	.PARAMETER ResourceID
+		The Azure resource ID whose role assignments are retrieved.
+
+	.PARAMETER Assignment
+		The full Azure resource ID of a specific role assignment to retrieve.
+
+	.PARAMETER Scope
+		Controls which role assignments are returned for a resource: Direct, All, Children, or Effective.
+		+ Direct: Only returns role assignments on the object itself.
+		+ All: Returns all role assignments on parent scopes, the object itself and any child-scopes.
+		+ Children: Return only role assignments on child objects of the specified resource
+		+ Effective: Return all role assignments on the resource itself and those it inherits from its parents.
+
+		Defaults to: Effective
+
+	.PARAMETER ServiceMap
+		Optional hashtable to map service names to specific EntraAuth service instances.
+		Used for advanced scenarios where you want to use something other than the default Azure connection.
+		Example: @{ Azure = 'MyAzure' }
+		This will switch all Azure API calls to use the configuration defined in MyAzure.
+		Defaults to: @{}
+
+	.EXAMPLE
+		PS C:\> Get-EaaRoleAssignment -ResourceID '/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/Production' -Scope Direct
+
+		Retrieves role assignments made directly on the Production resource group.
+
+	.EXAMPLE
+		PS C:\> Get-EaaRoleAssignment -Assignment '/subscriptions/00000000-0000-0000-0000-000000000001/providers/Microsoft.Authorization/roleAssignments/11111111-1111-1111-1111-111111111111'
+
+		Retrieves the role assignment with the specified resource ID.
+	#>
 	[CmdletBinding(DefaultParameterSetName = 'ByResource')]
 	param (
 		[Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = 'ByResource')]

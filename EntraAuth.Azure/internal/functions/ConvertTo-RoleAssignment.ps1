@@ -1,4 +1,26 @@
 ﻿function ConvertTo-RoleAssignment {
+	<#
+	.SYNOPSIS
+		Converts Azure API role assignment data into module role assignment objects.
+
+	.DESCRIPTION
+		Transforms role assignment data returned by the Azure API into EntraAuth.Azure.RoleAssignment objects.
+		The conversion resolves role details, identifies inherited assignments relative to the requested resource, and preserves the original object.
+
+	.PARAMETER InputObject
+		The Azure API role assignment object to convert.
+
+	.PARAMETER Resource
+		The resource ID used to determine whether the role assignment is inherited.
+
+	.PARAMETER Services
+		A hashtable containing the service mappings used to resolve role definitions.
+
+	.EXAMPLE
+		PS C:\> $response | ConvertTo-RoleAssignment -Resource 'subscriptions/00000000-0000-0000-0000-000000000001' -Services $services
+
+		Converts each Azure API role assignment into an EntraAuth.Azure.RoleAssignment object with resolved role and inheritance details.
+	#>
 	[CmdletBinding()]
 	param (
 		[Parameter(ValueFromPipeline = $true)]

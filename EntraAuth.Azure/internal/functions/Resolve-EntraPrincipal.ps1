@@ -1,4 +1,30 @@
 ﻿function Resolve-EntraPrincipal {
+	<#
+	.SYNOPSIS
+		Resolves a principal name or object ID to a Microsoft Entra object ID.
+
+	.DESCRIPTION
+		Returns a supplied GUID unchanged or resolves an exact user principal name or display name through Microsoft Graph for supported principal types.
+		Name resolution succeeds only when exactly one principal matches and reports errors through the calling cmdlet.
+
+	.PARAMETER Name
+		The principal name or object ID to resolve.
+
+	.PARAMETER Type
+		The principal type used for name resolution. Supported name lookups are User, Group, ServicePrincipal, and Devices.
+		Other types require a GUID in Name.
+
+	.PARAMETER Services
+		A hashtable containing the service mappings used to query Microsoft Graph.
+
+	.PARAMETER Cmdlet
+		The calling cmdlet context used to report resolution errors.
+
+	.EXAMPLE
+		PS C:\> Resolve-EntraPrincipal -Name 'admin@contoso.com' -Type User -Services $services -Cmdlet $PSCmdlet
+
+		Resolves the specified user principal name through Microsoft Graph and returns its object ID.
+	#>
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]
