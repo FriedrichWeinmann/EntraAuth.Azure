@@ -4,7 +4,7 @@
 	RootModule        = 'EntraAuth.Azure.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '1.0.0'
+	ModuleVersion     = '1.1.5'
 
 	# Supported PSEditions
 	# CompatiblePSEditions = @()
@@ -16,7 +16,7 @@
 	Author            = 'Friedrich Weinmann'
 
 	# Company or vendor of this module
-	CompanyName       = 'Microsoft'
+	CompanyName       = ' '
 
 	# Copyright statement for this module
 	Copyright         = '(c) Friedrich Weinmann. All rights reserved.'
@@ -45,7 +45,7 @@
 	# Modules that must be imported into the global environment prior to importing this module
 	RequiredModules   = @(
 		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.14.457' }
-		@{ ModuleName = 'EntraAuth'; ModuleVersion = '1.8.55' }
+		@{ ModuleName = 'EntraAuth'; ModuleVersion = '1.8.56' }
 	)
 
 	# Assemblies that must be loaded prior to importing this module
@@ -69,9 +69,14 @@
 	FunctionsToExport = @(
 		'Get-EaaLocation'
 		'Get-EaaResourceGroup'
+		'Get-EaaRoleAssignment'
+		'Get-EaaRoleDefinition'
 		'Get-EaaSubscription'
 		'New-EaaResourceGroup'
+		'New-EaaRoleAssignment'
 		'Remove-EaaResourceGroup'
+		'Remove-EaaRoleAssignment'
+		'Search-EaaGraph'
 		'Set-EaaResourceGroup'
 	)
 

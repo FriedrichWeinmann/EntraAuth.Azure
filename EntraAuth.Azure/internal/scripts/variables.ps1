@@ -4,6 +4,9 @@
 # $script:config = @{ }
 $script:_services = @{
 	Azure = 'Azure'
+	Graph = 'Graph'
 }
 
 $script:_serviceSelector = New-EntraServiceSelector -DefaultServices $script:_services
+
+$script:_RoleDefinitionCache = New-PSFCache -MaxItems 1000 -Lifetime 30m
